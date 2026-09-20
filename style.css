@@ -1,0 +1,1002 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    --navy: #0b3a56;
+    --navy2: #0d4664;
+    --navy-deep: #082a40;
+
+    --cream: #f5ecd7;
+    --cream-dark: #e8dcc0;
+    --gold: #f4b942;
+    --gold-dark: #d99a1f;
+
+    --teal: #2a9d8f;
+    --teal-dark: #1f7b70;
+    --coral: #e05263;
+    --coral-dark: #c03e4e;
+    --sky: #bde8ef;
+    --ink: #14384b;
+
+    --display: "DM Serif Display", serif;
+    --body: "Nunito", sans-serif;
+}
+
+/* =========================================
+   HTML & BODY
+========================================= */
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    min-height: 100%;
+}
+
+body {
+    font-family: var(--body);
+    color: var(--ink);
+    overflow-x: hidden;
+    background:
+        radial-gradient(circle at 15% 18%, rgba(255,255,255,.55), transparent 24%),
+        radial-gradient(circle at 82% 68%, rgba(255,255,255,.35), transparent 26%),
+        linear-gradient(160deg, #8fd0e0 0%, #a9dfe8 40%, #cfe9df 100%);
+}
+
+/* =========================================
+   SCREEN
+========================================= */
+
+.screen {
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* =========================================
+   MENU
+========================================= */
+
+#menuScreen {
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    background: url("./menu-bg.jpeg") center center / cover no-repeat;
+}
+
+.menu-image {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+/* Tombol transparan di atas gambar menu (Play & About Game
+   sudah digambar langsung di menu-bg.jpeg) */
+.image-button {
+    position: absolute;
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: transparent;
+    cursor: pointer;
+    z-index: 20;
+}
+
+.image-button span {
+    display: none;
+}
+
+.image-button:hover,
+.image-button:active,
+.image-button:focus {
+    background: transparent;
+    border: none;
+    outline: none;
+    transform: translate(-50%, -50%);
+}
+
+.play-hotspot {
+    width: 31%;
+    height: 14%;
+    left: 50%;
+    top: 58.1%;
+    transform: translate(-50%, -50%);
+}
+
+.about-hotspot {
+    width: 31%;
+    height: 13%;
+    left: 50%;
+    top: 74.3%;
+    transform: translate(-50%, -50%);
+}
+
+.menu-highscore-badge {
+    position: absolute;
+    left: 50%;
+    top: 3%;
+    transform: translateX(-50%);
+    z-index: 25;
+    pointer-events: none;
+    padding: 8px 22px;
+    background: rgba(7, 54, 83, 0.78);
+    color: #fff8e8;
+    font-weight: 800;
+    font-size: clamp(13px, 1.8vw, 16px);
+    border-radius: 999px;
+    white-space: nowrap;
+}
+
+.menu-sound-btn {
+    position: absolute;
+    top: 4%;
+    right: 4%;
+    z-index: 25;
+}
+
+/* Hint kecil: "Tap anywhere to start" untuk musik */
+.sound-hint {
+    position: absolute;
+    left: 50%;
+    bottom: 3%;
+    transform: translateX(-50%);
+    padding: 8px 18px;
+    background: rgba(7, 54, 83, 0.72);
+    color: #fff8e8;
+    font-weight: 700;
+    font-size: clamp(12px, 1.6vw, 15px);
+    border-radius: 999px;
+    z-index: 25;
+    pointer-events: none;
+    white-space: nowrap;
+    animation: soundHintPulse 1.6s ease-in-out infinite;
+    transition: opacity 0.5s ease;
+}
+
+.sound-hint.fade-out {
+    opacity: 0;
+}
+
+@keyframes soundHintPulse {
+    0%, 100% { opacity: 0.65; }
+    50% { opacity: 1; }
+}
+
+/* =========================================
+   BUTTONS (About / results screens)
+========================================= */
+
+.btn {
+    border: none;
+    min-height: 62px;
+    padding: 14px 28px;
+    border-radius: 50px;
+    font-family: var(--body);
+    font-size: 22px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform .18s ease, box-shadow .18s ease;
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn.primary {
+    color: var(--navy-deep);
+    background: linear-gradient(#ffd873, var(--gold));
+    border: 3px solid #ffe9ad;
+    box-shadow: 0 8px 0 var(--gold-dark), 0 14px 25px rgba(0,0,0,.2);
+}
+
+.btn.secondary {
+    color: white;
+    background: linear-gradient(#397e9e, #23617f);
+    border: 3px solid rgba(255,255,255,.35);
+    box-shadow: 0 8px 0 #164b67, 0 14px 25px rgba(0,0,0,.18);
+}
+
+/* =========================================
+   ABOUT
+========================================= */
+
+#aboutScreen {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+    background: url("./game-bg.jpeg") center center / cover no-repeat;
+}
+
+.about-card {
+    position: relative;
+    z-index: 10;
+    width: min(560px, 90%);
+    padding: 40px 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    background: var(--navy);
+    border: 4px solid #f5f1e8;
+    border-radius: 32px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+}
+
+.about-card h2 {
+    margin: 0 0 14px;
+    font-family: var(--display);
+    font-size: clamp(34px, 5vw, 46px);
+    color: var(--cream);
+}
+
+.about-lead {
+    max-width: 440px;
+    margin: 0 0 22px;
+    color: #ffffff;
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+    width: 100%;
+    margin-bottom: 26px;
+}
+
+.about-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 16px 8px;
+    background: rgba(255,255,255,.08);
+    border: 2px solid rgba(255,255,255,.25);
+    border-radius: 18px;
+    color: #ffffff;
+}
+
+.about-icon {
+    font-size: 26px;
+    margin-bottom: 4px;
+}
+
+.about-item strong {
+    font-size: 14px;
+}
+
+.about-item span {
+    font-size: 11px;
+    opacity: .85;
+}
+
+/* =========================================
+   GAME SCREEN
+========================================= */
+
+#gameScreen {
+    width: 100%;
+    padding: 30px 20px 40px;
+    background: url("./game-bg.jpeg") center center / cover no-repeat;
+}
+
+#gameScreen .game-wrapper {
+    width: min(1200px, 100%);
+    position: relative;
+    z-index: 5;
+    margin: 0 auto;
+}
+
+/* =========================================
+   HUD
+========================================= */
+
+.hud {
+    display: grid;
+    grid-template-columns: auto 1fr 1.7fr 1fr auto;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.hud-box {
+    min-height: 70px;
+    padding: 10px 18px;
+    border-radius: 20px;
+    background: var(--navy);
+    border: 3px solid #ffffff;
+    color: white;
+    box-shadow: 0 8px 20px rgba(0,0,0,.20);
+}
+
+.hud-box small {
+    display: block;
+    font-size: 11px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    color: var(--gold);
+}
+
+.hud-box strong {
+    font-size: 25px;
+    color: #ffffff;
+}
+
+.stage-box strong {
+    color: var(--gold);
+}
+
+/* =========================================
+   PROGRESS BAR (pasangan cocok) & TIMER
+========================================= */
+
+.stage-progress {
+    width: 100%;
+    height: 10px;
+    margin-bottom: 6px;
+    background: rgba(255,255,255,.4);
+    border: 2px solid #ffffff;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.stage-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--gold), #ffe089);
+    border-radius: 20px;
+    transition: width .3s ease;
+}
+
+.timer-track {
+    width: 100%;
+    height: 7px;
+    margin-bottom: 20px;
+    background: rgba(7,54,83,.18);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.timer-bar {
+    height: 100%;
+    width: 100%;
+    background: var(--teal);
+    border-radius: 20px;
+    transition: width .2s linear;
+}
+
+.timer-bar.danger {
+    background: var(--coral);
+    animation: pulseTimer .6s infinite alternate;
+}
+
+@keyframes pulseTimer {
+    from { opacity: .65; }
+    to { opacity: 1; }
+}
+
+/* =========================================
+   SOUND / HOME BUTTON
+========================================= */
+
+.sound-btn,
+.home-btn {
+    width: 58px;
+    height: 58px;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    background: var(--navy);
+    color: white;
+    font-size: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 6px 15px rgba(0,0,0,.2);
+}
+
+.home-btn svg {
+    width: 26px;
+    height: 26px;
+    fill: #ffffff;
+}
+
+/* =========================================
+   STAGE TITLE
+========================================= */
+
+.stage-title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.stage-title h2 {
+    margin: 0;
+    font-family: var(--display);
+    font-size: 44px;
+    color: var(--navy);
+}
+
+.stage-title p {
+    margin: 5px 0;
+    font-weight: 800;
+    color: #315b6c;
+}
+
+/* =========================================
+   BOARD / CARDS
+========================================= */
+
+.board {
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 145px);
+    justify-content: center;
+    gap: 18px;
+}
+
+.card {
+    width: 145px;
+    height: 145px;
+    aspect-ratio: 1 / 1;
+    perspective: 1000px;
+    cursor: pointer;
+}
+
+.card-inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform .45s cubic-bezier(.2,.7,.2,1);
+}
+
+.card.flipped .card-inner,
+.card.matched .card-inner {
+    transform: rotateY(180deg);
+}
+
+.face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 4px solid #ffffff;
+    box-shadow: 0 8px 18px rgba(7,54,83,.30);
+}
+
+.face.back {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(145deg, var(--navy2), var(--navy));
+    color: var(--gold);
+    font-size: 50px;
+    position: absolute;
+}
+
+.face.front {
+    transform: rotateY(180deg);
+    background: var(--cream);
+}
+
+.face.front img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px 8px;
+    color: white;
+    font-size: 12px;
+    font-weight: 900;
+    text-align: center;
+    background: linear-gradient(transparent, rgba(7,54,83,.95));
+}
+
+.face.front.qa {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    text-align: center;
+    color: var(--navy);
+    font-size: 18px;
+    font-weight: 900;
+    line-height: 1.35;
+    background: var(--cream);
+}
+
+.card.matched .face {
+    border-color: var(--gold);
+    box-shadow: 0 0 0 4px rgba(244,185,66,.35), 0 10px 25px rgba(42,157,143,.30);
+}
+
+/* =========================================
+   OVERLAY (tutorial / sudden question / results)
+========================================= */
+
+.overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(7,54,83,.72);
+    backdrop-filter: blur(6px);
+}
+
+/* =========================================
+   TUTORIAL
+========================================= */
+
+.tutorial-card {
+    width: min(480px, 92vw);
+    padding: 36px 32px;
+    border-radius: 28px;
+    text-align: center;
+    background: var(--navy);
+    border: 3px solid rgba(255,255,255,.25);
+    box-shadow: 0 30px 70px rgba(0,0,0,.35);
+    position: relative;
+    color: #ffffff;
+}
+
+.tutorial-card > h2 {
+    margin: 0 0 20px;
+    font-family: var(--display);
+    font-size: 30px;
+    color: var(--cream);
+}
+
+.tutorial-body h3 {
+    margin: 0 0 10px;
+    font-family: var(--body);
+    font-size: 19px;
+    color: var(--gold);
+}
+
+.tutorial-body p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.6;
+    color: #eaf3f6;
+}
+
+.close-btn {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    border: none;
+    background: none;
+    color: #ffffff;
+    font-size: 30px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.dots {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 24px 0;
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.3);
+}
+
+.dot.active {
+    background: var(--gold);
+}
+
+/* Indikator "Rekor Baru" di layar Game Over / Victory */
+.new-record {
+    margin-top: 8px;
+    font-weight: 900;
+    font-size: 18px;
+    color: var(--gold);
+}
+
+/* =========================================
+   SUDDEN QUESTION
+========================================= */
+
+.question-card {
+    width: min(480px, 92vw);
+    padding: 34px 30px;
+    border-radius: 28px;
+    text-align: center;
+    background: var(--navy);
+    border: 3px solid rgba(255,255,255,.25);
+    box-shadow: 0 30px 70px rgba(0,0,0,.35);
+}
+
+.question-label {
+    display: inline-block;
+    color: #ffffff;
+    background: var(--coral);
+    padding: 6px 18px;
+    border-radius: 999px;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 2px;
+    margin-bottom: 14px;
+}
+
+.question-card h2 {
+    margin: 0 0 20px;
+    font-family: var(--body);
+    font-size: 22px;
+    line-height: 1.4;
+    color: #ffffff;
+}
+
+.options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 10px 0 20px;
+}
+
+.opt {
+    min-height: 55px;
+    border-radius: 15px;
+    border: 3px solid rgba(255,255,255,.2);
+    background: rgba(255,255,255,.08);
+    color: #ffffff;
+    font-family: var(--body);
+    font-size: 16px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: .15s;
+}
+
+.opt:hover:not(:disabled) {
+    transform: translateY(-2px);
+    border-color: var(--gold);
+}
+
+.opt.correct {
+    background: var(--teal);
+    border-color: var(--teal);
+    color: #ffffff;
+}
+
+.opt.wrong {
+    background: var(--coral);
+    border-color: var(--coral);
+    color: #ffffff;
+}
+
+.question-note {
+    margin: 0;
+    font-weight: 800;
+    color: var(--gold);
+    font-size: 14px;
+}
+
+/* =========================================
+   ANSWER FEEDBACK (Correct! / Wrong!)
+========================================= */
+
+.feedback-card {
+    width: min(400px, 90vw);
+    padding: 40px 30px;
+    border-radius: 28px;
+    text-align: center;
+    color: #ffffff;
+    background: var(--teal);
+    box-shadow: 0 30px 70px rgba(0,0,0,.35);
+}
+
+.feedback-card.wrong {
+    background: var(--coral);
+}
+
+.feedback-icon {
+    width: 64px;
+    height: 64px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    background: rgba(255,255,255,.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    font-weight: 900;
+}
+
+.feedback-card.correct .feedback-icon {
+    color: var(--teal-dark);
+}
+
+.feedback-card.wrong .feedback-icon {
+    color: var(--coral-dark);
+}
+
+.feedback-card h2 {
+    margin: 0 0 6px;
+    font-family: var(--display);
+    font-size: 30px;
+}
+
+.feedback-card p {
+    margin: 0 0 22px;
+    font-weight: 800;
+    font-size: 15px;
+}
+
+.feedback-card .btn {
+    background: #ffffff;
+    color: var(--navy);
+    border: none;
+    box-shadow: 0 7px 0 rgba(0,0,0,.15), 0 10px 18px rgba(0,0,0,.18);
+}
+
+/* =========================================
+   RESULT CARDS (Stage Clear / Game Over / Victory)
+   Parchment / cream style
+========================================= */
+
+.result-card.parchment {
+    position: relative;
+    width: 420px;
+    height: 420px;
+    min-width: 0;
+    min-height: 0;
+    max-width: calc(100vw - 40px);
+    max-height: calc(100vh - 40px);
+    margin: auto;
+    padding: 24px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    text-align: center;
+    background: linear-gradient(160deg, var(--cream), var(--cream-dark));
+    border: 4px solid #ffffff;
+    border-radius: 30px;
+    box-shadow: 0 20px 50px rgba(0,0,0,.35);
+    color: var(--navy);
+}
+
+.result-card.parchment .result-icon {
+    font-size: 48px;
+    line-height: 1;
+    margin: 0 0 12px;
+}
+
+.result-card.parchment h2 {
+    font-family: var(--display);
+    font-size: 32px;
+    line-height: 1.15;
+    margin: 0 0 10px;
+    color: var(--navy);
+}
+
+.result-card.parchment p {
+    font-size: 15px;
+    line-height: 1.35;
+    margin: 0 0 14px;
+    color: #3d5a68;
+}
+
+.result-card.parchment .result-score,
+.result-card.parchment .final-score {
+    font-family: var(--display);
+    font-size: 42px;
+    line-height: 1.2;
+    margin: 6px 0 16px;
+    color: var(--navy);
+    background: rgba(255,255,255,.55);
+    border-radius: 16px;
+    padding: 6px 20px;
+}
+
+.result-card.parchment .btn {
+    width: 270px;
+    max-width: 90%;
+    min-width: 0;
+    min-height: 54px;
+    height: 54px;
+    padding: 10px 20px;
+    margin: 0;
+    font-size: 18px;
+    line-height: 1;
+    border-radius: 30px;
+    flex-shrink: 0;
+}
+
+.result-card.parchment .btn + .btn {
+    margin-top: 12px;
+}
+
+.result-card.parchment .btn.secondary {
+    background: var(--navy);
+    color: #ffffff;
+    border: 3px solid #ffffff;
+    box-shadow: 0 7px 0 #06263a, 0 10px 18px rgba(0,0,0,.18);
+}
+
+/* =========================================
+   RESPONSIVE - TABLET
+========================================= */
+
+@media (max-width: 800px) {
+    .hud {
+        grid-template-columns: auto 1fr 1fr 1fr;
+    }
+
+    .sound-btn {
+        display: none;
+    }
+
+    .board {
+        grid-template-columns: repeat(4, 125px);
+        gap: 14px;
+    }
+
+    .card {
+        width: 125px;
+        height: 125px;
+    }
+
+    .face.front.qa {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .caption {
+        font-size: 9px;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================
+   RESPONSIVE - HP
+========================================= */
+
+@media (max-width: 600px) {
+    #gameScreen {
+        padding: 20px 12px 35px;
+    }
+
+    .board {
+        grid-template-columns: repeat(4, 80px);
+        gap: 10px;
+        max-width: 350px;
+    }
+
+    .card {
+        width: 80px;
+        height: 80px;
+    }
+
+    .face {
+        border-width: 3px;
+        border-radius: 13px;
+    }
+
+    .face.back {
+        font-size: 28px;
+    }
+
+    .stage-title h2 {
+        font-size: 32px;
+    }
+
+    .hud-box {
+        min-height: 60px;
+        padding: 8px 10px;
+    }
+
+    .hud-box strong {
+        font-size: 20px;
+    }
+
+    .home-btn {
+        width: 48px;
+        height: 48px;
+    }
+
+    .home-btn svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .result-card.parchment {
+        width: 350px;
+        height: 350px;
+        padding: 20px;
+    }
+
+    .result-card.parchment .result-icon {
+        font-size: 40px;
+    }
+
+    .result-card.parchment h2 {
+        font-size: 26px;
+    }
+
+    .result-card.parchment p {
+        font-size: 13px;
+    }
+
+    .result-card.parchment .result-score,
+    .result-card.parchment .final-score {
+        font-size: 34px;
+    }
+
+    .result-card.parchment .btn {
+        width: 230px;
+        height: 50px;
+        min-height: 50px;
+        font-size: 17px;
+    }
+}
+
+/* =========================================
+   RESPONSIVE - HP KECIL
+========================================= */
+
+@media (max-width: 500px) {
+    .btn {
+        font-size: 19px;
+        min-height: 56px;
+    }
+
+    .board {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 220px;
+    }
+
+    .card {
+        width: 100px;
+        height: 100px;
+    }
+
+    .options {
+        grid-template-columns: 1fr;
+    }
+}

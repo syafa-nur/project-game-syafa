@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Passport — Petualangan Kartu Keliling Dunia</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Nunito:wght@400;600;700;800;900&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- =====================================================
+         MAIN MENU
+    ====================================================== -->
+
+    <main id="menuScreen" class="screen">
+
+        <div class="menu-image">
+
+            <div id="highScoreBadge" class="menu-highscore-badge">
+                🏆 Skor Tertinggi: <span id="highScoreValue">0</span>
+            </div>
+
+            <button id="menuSoundBtn" class="sound-toggle menu-sound-btn" aria-label="Aktifkan/matikan suara">
+                🔊
+            </button>
+
+            <!-- Area klik Play (menimpa tombol yang sudah ada di gambar) -->
+            <button id="playBtn" class="image-button play-hotspot" aria-label="Main">
+                <span>Main</span>
+            </button>
+
+            <!-- Area klik About Game (menimpa tombol yang sudah ada di gambar) -->
+            <button id="aboutBtn" class="image-button about-hotspot" aria-label="Tentang Game">
+                <span>Tentang Game</span>
+            </button>
+
+            <div id="soundHint" class="sound-hint">
+                🔊 Ketuk di mana saja untuk mulai
+            </div>
+
+        </div>
+
+    </main>
+
+
+    <!-- =====================================================
+         TENTANG GAME
+    ====================================================== -->
+
+    <section id="aboutScreen" class="screen hidden">
+
+        <div class="about-card">
+
+            <h2>Tentang Game</h2>
+
+            <p class="about-lead">
+                Passport adalah memory game bertema petualangan keliling dunia!
+            </p>
+
+            <div class="about-grid">
+
+                <div class="about-item">
+                    <span class="about-icon">🧭</span>
+                    <strong>3 Tahap</strong>
+                    <span>Easy, Medium, Hard</span>
+                </div>
+
+                <div class="about-item">
+                    <span class="about-icon">⏱</span>
+                    <strong>Time Challenge</strong>
+                    <span>+ Pertanyaan Mendadak</span>
+                </div>
+
+                <div class="about-item">
+                    <span class="about-icon">✈️</span>
+                    <strong>Keliling Dunia</strong>
+                    <span>Cocokkan landmark & jawab soal</span>
+                </div>
+
+            </div>
+
+            <button class="btn primary" data-back="menuScreen">
+                ← Kembali
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         GAME SCREEN
+    ====================================================== -->
+
+    <section id="gameScreen" class="screen hidden">
+
+        <div class="game-wrapper">
+
+            <!-- =========================
+                 HUD
+            ========================== -->
+
+            <header class="hud">
+
+                <button
+                    id="homeBtn"
+                    class="home-btn"
+                    aria-label="Kembali ke Menu"
+                    data-back="menuScreen"
+                >
+                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                    </svg>
+                </button>
+
+                <div class="hud-box stage-box">
+                    <small>STAGE</small>
+                    <strong id="stageName">Easy</strong>
+                </div>
+
+                <div class="hud-box">
+                    <small>⏱ WAKTU</small>
+                    <strong><span id="timeValue">30</span>s</strong>
+                </div>
+
+                <div class="hud-box">
+                    <small>⭐ SKOR</small>
+                    <strong id="scoreValue">0</strong>
+                </div>
+
+                <button id="soundBtn" class="sound-toggle sound-btn" aria-label="Aktifkan/matikan suara">
+                    🔊
+                </button>
+
+            </header>
+
+            <!-- Progress bar jumlah pasangan yang sudah cocok -->
+            <div class="stage-progress">
+                <div id="stageProgressFill" class="stage-progress-fill"></div>
+            </div>
+
+            <!-- Timer bar terpisah (warna berubah saat waktu kritis) -->
+            <div class="timer-track">
+                <div id="timerBar" class="timer-bar"></div>
+            </div>
+
+
+            <!-- =========================
+                 STAGE TITLE
+            ========================== -->
+
+            <div class="stage-title">
+                <h2 id="stageTitle">Keliling Dunia</h2>
+                <p id="stageHint">Cocokkan gambar landmark.</p>
+            </div>
+
+
+            <!-- =========================
+                 CARD BOARD
+            ========================== -->
+
+            <div id="board" class="board"></div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =====================================================
+         FIRST-TIME TUTORIAL
+    ====================================================== -->
+
+    <div id="tutorial" class="overlay hidden">
+
+        <div class="tutorial-card">
+
+            <button id="tutorialClose" class="close-btn">×</button>
+
+            <h2>Cara Bermain</h2>
+
+            <div class="tutorial-body">
+                <h3 id="tutTitle">Cara Bermain</h3>
+                <p id="tutText">Buka dua kartu dan temukan pasangan yang cocok.</p>
+            </div>
+
+            <div id="tutDots" class="dots"></div>
+
+            <button id="tutNext" class="btn primary">Lanjut</button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         PERTANYAAN NEGARA MENDADAK
+    ====================================================== -->
+
+    <div id="suddenOverlay" class="overlay hidden">
+
+        <div class="question-card">
+
+            <p class="question-label">⏱ WAKTU KRITIS</p>
+
+            <h2 id="suddenQuestion">Pertanyaan</h2>
+
+            <div id="suddenOptions" class="options"></div>
+
+            <p class="question-note">
+                Jawaban benar memberi +10 detik!
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         FEEDBACK JAWABAN (Correct / Wrong)
+    ====================================================== -->
+
+    <div id="answerFeedback" class="overlay hidden">
+
+        <div id="feedbackCard" class="feedback-card">
+
+            <div id="feedbackIcon" class="feedback-icon">✓</div>
+
+            <h2 id="feedbackTitle">Benar!</h2>
+            <p id="feedbackSubtext">+10 detik</p>
+
+            <button id="feedbackContinue" class="btn primary">Lanjut</button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         STAGE CLEAR
+    ====================================================== -->
+
+    <div id="stageClear" class="overlay hidden">
+
+        <div class="result-card parchment">
+
+            <div class="result-icon">⭐</div>
+
+            <h2>Tahap Selesai!</h2>
+            <p>Kerja bagus, penjelajah!</p>
+
+            <div class="result-score">
+                Skor +<span id="stageBonus">0</span>
+            </div>
+
+            <button id="continueBtn" class="btn primary">Lanjut</button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         GAME OVER
+    ====================================================== -->
+
+    <div id="gameOver" class="overlay hidden">
+
+        <div class="result-card parchment">
+
+            <div class="result-icon">🧭</div>
+
+            <h2>Perjalanan Terhenti</h2>
+            <p>Waktu habis sebelum tahap selesai.</p>
+
+            <div class="result-score">
+                Skor Akhir<br>
+                <span id="overScore">0</span>
+            </div>
+
+            <p id="overNewRecord" class="new-record hidden">🏆 Rekor Baru!</p>
+
+            <button id="retryBtn" class="btn primary">Main Lagi</button>
+
+            <button class="btn secondary" data-back="menuScreen">
+                Menu Utama
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         VICTORY
+    ====================================================== -->
+
+    <div id="victory" class="overlay hidden">
+
+        <div class="result-card parchment">
+
+            <h2>Keliling Dunia Selesai!</h2>
+            <p>Kamu berhasil, menjawab, dan mengalahkan waktu di setiap tahap.</p>
+
+            <div class="result-score">
+                Skor Akhir<br>
+                <span id="winScore">0</span>
+            </div>
+
+            <p id="winNewRecord" class="new-record hidden">🏆 Rekor Baru!</p>
+
+            <button id="victoryPlayAgain" class="btn primary">Main Lagi</button>
+
+            <button class="btn secondary" data-back="menuScreen">
+                Menu Utama
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================  
+         JAVASCRIPT
+    ====================================================== -->
+
+    <script src="script.js"></script>
+
+</body>
+</html>
